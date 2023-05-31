@@ -1,6 +1,6 @@
 ---
 title: "HELPmiss (Data Verbs) Activity"
-author: "YOUR NAME HERE"
+author: "Madeline Mucciolo"
 output: html_notebook
 ---
 
@@ -34,10 +34,10 @@ data("HELPmiss", package = "mosaicData")
 ## Task 1: Data Description
 
 *Write several sentences (or a bullet list) describing the HELP Study and the resulting `HELPmiss` data.  Your description should investigate basic data provenance (e.g., Who, What, When, Where, Why, How), explain the setting for the data, specify what each case represents in the data, and remark on inclusion/exclusion criteria.* 
-
-
-- investigate by searching R help documentation
-- there's a research paper cited where additional detail is provided
+```{r}
+help("HELPmiss")
+```
+The 'HELPmiss' data contains 470 cases from a clinical study about adults in a detoxification unit. The 'HELPmiss' data, which stands for 'Health Evaluation and Linkage to Primary Care' contains 28 variables to document each individuals health status. Variables range from rating mental health issues to the average number of drinks consumed in the last 30 days. 
 
 
 
@@ -48,15 +48,16 @@ data("HELPmiss", package = "mosaicData")
 1. number of people (cases) in `HELPmiss` study
 
 ```{r}
-#Your code here 
-
+HELPmiss %>%
+  summarise(cases = nrow(HELPmiss))
 ```
 
 2. total number of times in the past 6 months entered a detox program (measured at baseline) for all the people in `HELPmiss`. 
 
 ```{r}
-#Your code here 
-
+HELPmiss %>%
+  group_by(id) %>%
+  summarise(total = sum(e2b))
 ```
 
 
@@ -64,8 +65,9 @@ data("HELPmiss", package = "mosaicData")
 
 
 ```{r}
-#Your code here 
-
+HELPmiss %>%
+  
+  summarise("mean days" = mean(daysanysub, na.rm = TRUE))
 ```
 
 
