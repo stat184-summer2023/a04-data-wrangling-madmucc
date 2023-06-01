@@ -211,9 +211,18 @@ The group that went the longest before using their primary substance again was h
 
 
 ```{r}
-# Your Code here.
-
+ggplot(HELPmiss) +
+  aes(x = daysanysub, y = substance, colour = homeless) +
+  geom_boxplot(fill = "#112446") +
+  scale_color_hue(direction = 1) +
+  labs(
+    x = "days after leaving detox program",
+    y = "primary substance",
+    subtitle = "Number of Days Until Re-Using Primary Substance"
+  ) +
+  theme_minimal() +
+  facet_wrap(vars(sex))
 ```
-
+I wanted to include as much data as possible in this graph, regarding when users would begin using their primary substance after leaving a detox program. In order to achieve this, I added facets to break the data up by sex and different colors to indicate whether each patient was housed or homeless. The box plots allow viewers to easily see and compare the number of days all different types of users went before re-using their primary substance. The most interesting piece of information from this graph, is how quickly most housed heroin users began using heroin after their stay at a detox program.
 
 
