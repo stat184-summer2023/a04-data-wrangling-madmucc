@@ -49,7 +49,7 @@ The 'HELPmiss' data contains 470 cases from a clinical study about adults in a d
 
 ```{r}
 HELPmiss %>%
-  summarise(cases = nrow(HELPmiss))
+  summarise(cases = n())
 ```
 
 2. total number of times in the past 6 months entered a detox program (measured at baseline) for all the people in `HELPmiss`. 
@@ -66,7 +66,6 @@ HELPmiss %>%
 
 ```{r}
 HELPmiss %>%
-  
   summarise("mean days" = mean(daysanysub, na.rm = TRUE))
 ```
 
@@ -85,35 +84,123 @@ HELPmiss %>%
 
 ### males versus females
 ```{r}
-#Your code here
-
+HELPmiss %>%
+  group_by(sex) %>%
+  summarise(cases = n())  # the number of cases of each sex
 ```
+Far more males were studied and recorded in this data set than females.  
+
+```{r}
+HELPmiss %>%
+  group_by(sex) %>%
+  na.omit() %>% # omit N/A to preserve calculation
+  summarise(total = sum(e2b)) # the total number of times each sex entered a detox program in the last                                 6 months
+```
+Significantly more males than females entered a detox program in the last six months.  
+
+```{r}
+HELPmiss %>%
+  group_by(sex) %>%
+  summarise("mean days" = mean(daysanysub, na.rm = TRUE)) # the mean days to the first use of                                                                   substance after a detox program for each sex
+```
+Females went an average of 11 days longer than males before using a substance again after leaving a detox program.    
 
 ### homeless or not
 ```{r}
-#Your code here
-
+HELPmiss %>%
+  group_by(homeless) %>%
+  summarise(cases = n())  # the number of cases of homeless vs housed
 ```
+Slightly more observed cases were housed (vs homeless) during the time this data was taken. This is an interesting thing to note, since people commonly associate substance abuse with being homeless.  
 
+```{r}
+HELPmiss %>%
+  group_by(homeless) %>%
+  na.omit() %>% # omit N/A to preserve calculation
+  summarise(total = sum(e2b)) # the total number of times housed vs homeless entered a detox program                                  in the last 6 months
+```
+This shows that well over double the number of observed cases who entered a detox program in the last six months were homeless (232) vs housed (83). 
+
+```{r}
+HELPmiss %>%
+  group_by(homeless) %>%
+  summarise("mean days" = mean(daysanysub, na.rm = TRUE)) # the mean days to the first use of                                                                   substance after a detox program for homeless                                                           vs housed
+```
+Both housed and homeless made it around ~75 days before using a substance again after completing a detox program, with housed cases going slightly longer (on average).
 
 ### substance
 ```{r}
-#Your code here
-
+HELPmiss %>%
+  group_by(substance) %>%
+  summarise(cases = n())  # the number of cases of different substances
 ```
+This shows that while most cases identified alcohol as their primary substance, cociane and herion were both close behind in primary usage.  
+
+```{r}
+HELPmiss %>%
+  group_by(substance) %>%
+  na.omit() %>% # omit N/A to preserve calculation
+  summarise(total = sum(e2b)) # the total number of times different primary substance users entered a                                 detox program in the last 6 months
+```
+Significantly more primary alcohol users entered a detox program in the last 6 months. It is important to note here though, that there were also the largest amount of primary alcohol users in the first place.  
+
+```{r}
+HELPmiss %>%
+  group_by(substance) %>%
+  summarise("mean days" = mean(daysanysub, na.rm = TRUE)) # the mean days to the first use of                                                                   substance after a detox program for                                                                   different substances
+```
+The longest days gone after a detox program to using a substance again were cocaine users (on average), with the shortest being heroin.  
 
 ### homeless versus housed broken down by sex
 ```{r}
-#Your code here
-
+HELPmiss %>%
+  group_by(homeless, sex) %>%
+  summarise(cases = n())  # the number of cases of homeless vs housed in males vs females
 ```
+Since there are more males than females in the data set, it is hard to accurately compare these numbers without doing further calculations. About 38% of recorded females are homeless (42/111[total females]) while about 49% of recorded males are homeless.  
+
+
+```{r}
+HELPmiss %>%
+  group_by(homeless, sex) %>%
+  na.omit() %>% # omit N/A to preserve calculation
+  summarise(total = sum(e2b)) # the total number of times homeless vs housed in male vs female users                                entered a detox program in the last 6 months
+```
+Significantly more recorded homeless males entered a detox program in the last six months than other subcategory.  
+
+
+```{r}
+HELPmiss %>%
+  group_by(homeless, sex) %>%
+  summarise("mean days" = mean(daysanysub, na.rm = TRUE)) # the mean days to the first use of                                                                   substance after a detox program for                                                                   homeless vs housed in males vs females
+```
+In general, it seems that of the recorded females, regardless of whether they are homeless or housed, lasted around 10 days longer before using a substance following a detox program when compared to the recorded males.  
+
 
 ### homeless versus housed broken down by substance
 ```{r}
-#Your code here
-
+HELPmiss %>%
+  group_by(homeless, substance) %>%
+  summarise(cases = n())  # the number of cases of homeless vs housed in diff substances
 ```
+In both cocaine and heroin, more primary substances users are housed vs homeless. On the other hand, where alcohol is the primary substance, more of the cases are homeless.  
 
+
+```{r}
+HELPmiss %>%
+  group_by(homeless, substance) %>%
+  na.omit() %>% # omit N/A to preserve calculation
+  summarise(total = sum(e2b)) # the total number of times homeless vs housed in diff substance users                                entered a detox program in the last 6 months
+```
+In primary alcohol users, the rate of cases who were in a detox program in the last 6 months is much higher than for cocaine and heroin.  
+
+
+```{r}
+HELPmiss %>%
+  group_by(homeless, substance) %>%
+  summarise("mean days" = mean(daysanysub, na.rm = TRUE)) # the mean days to the first use of                                                                   substance after a detox program for                                                                   homeless vs housed in diff substances
+```
+The group that went the longest before using their primary substance again was housed alcohol users, who went an average of 105 days before using again. On the contrary, those who went the shortest amount of time were housed heroin users, with only an average of 41 days.  
 
 
 ## Task 4: Data Visualization & Observations
